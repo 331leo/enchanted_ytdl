@@ -73,7 +73,7 @@ def download(o_type,linkinputmode):
             f = open(f"download.txt", "w")
             f.close()
             input(f"download.txt 파일이 존재하지 않습니다.\n해당 파일을 생성하였으니, 해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣으신후 다시 실행해 주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
-
+            return
         else:
             f=open(f"download.txt","r")
             links = f.readlines()
@@ -96,10 +96,13 @@ def download(o_type,linkinputmode):
                 f.close()
             print(f"다운로드가 완료되었습니다.\n프로그램 실행경로의 downloaded_{o_type}/{run_time} 에 저장하였습니다!\n{linput_type} 를 초기화 하였습니다!")
             input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+            return
         else:
             input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+            return
     else:
         input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+        return
 
 
 def menu():
