@@ -97,7 +97,18 @@ def download_from_file(o_type):
 
 
 def menu():
-    modes=["음악 다운로드 모드", "영상 다운로드 모드"]
+    def isfilemode():
+        ok = True
+        while ok:
+            print("다운로드 방식을 선택하세요.")
+            print("[1] 파일로 부터 링크 가져오기")
+            print("[2] 영상 링크 직접 입력")
+            print("[q] 메인메뉴")
+            c = input("> ")
+            clear()
+            if c == "1" or c == "2" or c == "q":
+                ok = False
+        return c
     print("프로그램 동작 모드를 선택하세요.")
     print("[1] 음악 다운로드 모드")
     print("[2] 영상 다운로드 모드(포멧: mkv)")
@@ -105,12 +116,23 @@ def menu():
     print("[q] 종료")
     c = input("> ")
     clear()
+
     if c == "1":
-        download_from_file("mp3")
+        r=isfilemode()
+        if r == "q":
+            return 1
+        download_from_file("mp3",r)
+
     elif c == "2":
-        download_from_file("ori_video")
+        r = isfilemode()
+        if r == "q":
+            return 1
+        download_from_file("ori_video",r)
     elif c == "3":
-        download_from_file("mp4")
+        r = isfilemode()
+        if r == "q":
+            return 1
+        download_from_file("mp4",r)
 
     elif c == "q":
         return 0
