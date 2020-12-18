@@ -37,7 +37,7 @@ def checkffmpeg():
         print("")
     clear()
 
-def download_from_file(o_type):
+def download(o_type,linkinputmode):
     o_type_human = "음악파일(mp3)"
     if o_type == "mp3":
         ydl_opts = {
@@ -121,18 +121,18 @@ def menu():
         r=isfilemode()
         if r == "q":
             return 1
-        download_from_file("mp3",r)
+        download("mp3",r)
 
     elif c == "2":
         r = isfilemode()
         if r == "q":
             return 1
-        download_from_file("ori_video",r)
+        download("ori_video",r)
     elif c == "3":
         r = isfilemode()
         if r == "q":
             return 1
-        download_from_file("mp4",r)
+        download("mp4",r)
 
     elif c == "q":
         return 0
