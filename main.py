@@ -38,8 +38,8 @@ def checkffmpeg():
     clear()
 
 def download(o_type,linkinputmode):
-    o_type_human = "음악파일(mp3)"
     if o_type == "mp3":
+        o_type_human = "음악파일(mp3)"
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': f"./downloaed_{o_type}/{run_time}/%(title)s.%(ext)s",
