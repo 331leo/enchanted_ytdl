@@ -6,7 +6,7 @@ import time
 import wget
 import shutil
 import math
-run_time=str(datetime.datetime.now())[:21].replace(":","_")
+run_time=str(datetime.datetime.now())[:19].replace(":","_")
 
 _ = os.system("title Youtube Downloader (Made By Leok.kr)")
 def clear():
@@ -38,6 +38,7 @@ def checkffmpeg():
     clear()
 
 def download(o_type,linkinputmode):
+    links = []
     if o_type == "mp3":
         o_type_human = "음악파일(mp3)"
         ydl_opts = {
@@ -47,7 +48,7 @@ def download(o_type,linkinputmode):
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
-            }],
+            },{'key': 'FFmpegMetadata'},],
         }
     elif o_type == "mp4":
         o_type_human = "mp4"
@@ -80,8 +81,8 @@ def download(o_type,linkinputmode):
             f.close()
     elif linkinputmode == "2":
         linput_type = "사용자 입력 링크"
-        links=[" "]
-        links[0] == input(f"> {o_type_human}로 다운받을 영상의 링크를 입력하세요: ")
+        links.append(input(f"> {o_type_human}로 다운받을 영상의 링크를 입력하세요: "))
+
     if len(links) >= 1:
         if len(links[0]) >= 5:
             print(f"{linput_type} 를 읽어와, {o_type_human} 다운로드를 시작합니다.")
@@ -94,7 +95,8 @@ def download(o_type,linkinputmode):
                 shutil.move(f"./download.txt",f"./downloaed_{o_type}/{run_time}/!downloaded_{o_type}_links.txt")
                 f = open(f"download.txt", "w")
                 f.close()
-            print(f"다운로드가 완료되었습니다.\n프로그램 실행경로의 downloaded_{o_type}/{run_time} 에 저장하였습니다!\n{linput_type} 를 초기화 하였습니다!")
+            clear()
+            print(f"다운로드가 완료되었습니다.\n./downloaded_{o_type}/{run_time} 에 저장하였습니다!\n{linput_type} 를 초기화 하였습니다!")
             input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
             return
         else:
