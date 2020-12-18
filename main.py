@@ -8,7 +8,7 @@ import shutil
 import math
 run_time=str(datetime.datetime.now())[:21].replace(":","_")
 
-
+_ = os.system("title Youtube Downloader (Made By Leok.kr)")
 def clear():
     # for windows
     if os.name == 'nt':
@@ -38,6 +38,7 @@ def checkffmpeg():
     clear()
 
 def download_from_file(o_type):
+    o_type_human = "음악파일(mp3)"
     if o_type == "mp3":
         ydl_opts = {
             'format': 'bestaudio/best',
@@ -49,6 +50,7 @@ def download_from_file(o_type):
             }],
         }
     elif o_type == "mp4":
+        o_type_human = "mp4"
         ydl_opts = {
             'format': 'bestvideo+bestaudio',
             'outtmpl': f"./downloaed_{o_type}/{run_time}/%(title)s.%(ext)s",
@@ -59,6 +61,7 @@ def download_from_file(o_type):
         {'key': 'FFmpegMetadata'},],
         }
     elif o_type == "ori_video":
+        o_type_human = "원본영상으"
         ydl_opts = {
             'format': 'bestvideo+bestaudio',
             'outtmpl': f"./downloaed_{o_type}/{run_time}/%(title)s.%(ext)s",
@@ -68,7 +71,7 @@ def download_from_file(o_type):
     if not os.path.isfile(f"download.txt"):
         f = open(f"download.txt", "w")
         f.close()
-        input(f"download.txt 파일이 존재하지 않습니다.\n해당 파일을 생성하였으니, 해당 파일에 {o_type}로 다운받고 싶은 유튜브 영상들의 링크를 넣으신후 다시 실행해 주세요.\n\n엔터를 누르시면 메뉴로 돌아갑니다.")
+        input(f"download.txt 파일이 존재하지 않습니다.\n해당 파일을 생성하였으니, 해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣으신후 다시 실행해 주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
 
     else:
         f=open(f"download.txt","r")
@@ -86,11 +89,11 @@ def download_from_file(o_type):
                 print(f"다운로드가 완료되었습니다.\n프로그램 실행경로의 downloaded_{o_type}/{run_time} 에 저장하였습니다!\ndownload.txt 파일을 초기화 하였습니다!")
                 f = open(f"download.txt", "w")
                 f.close()
-                input("엔터를 누르시면 메뉴로 돌아갑니다.")
+                input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
             else:
-                input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n엔터를 누르시면 메뉴로 돌아갑니다.")
+                input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
         else:
-            input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n엔터를 누르시면 메뉴로 돌아갑니다.")
+            input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
 
 
 def menu():
@@ -100,7 +103,7 @@ def menu():
     print("[2] 영상 다운로드 모드(포멧: mkv)")
     print("[3] 영상 다운로드 모드(강제 mp4변환, 오래걸림)")
     print("[q] 종료")
-    c = input(">")
+    c = input("> ")
     clear()
     if c == "1":
         download_from_file("mp3")
@@ -112,6 +115,7 @@ def menu():
     elif c == "q":
         return 0
     clear()
+
 checkffmpeg()
 clear()
 while True:
