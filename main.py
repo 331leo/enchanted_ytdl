@@ -67,33 +67,39 @@ def download(o_type,linkinputmode):
             'outtmpl': f"./downloaed_{o_type}/{run_time}/%(title)s.%(ext)s",
             'postprocessors': [{'key': 'FFmpegMetadata'},],
         }
+    if linkinputmode == "1":
+        linput_type="download.txt"
+        if not os.path.isfile(f"download.txt"):
+            f = open(f"download.txt", "w")
+            f.close()
+            input(f"download.txt 파일이 존재하지 않습니다.\n해당 파일을 생성하였으니, 해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣으신후 다시 실행해 주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
 
-    if not os.path.isfile(f"download.txt"):
-        f = open(f"download.txt", "w")
-        f.close()
-        input(f"download.txt 파일이 존재하지 않습니다.\n해당 파일을 생성하였으니, 해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣으신후 다시 실행해 주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+        else:
+            f=open(f"download.txt","r")
+            links = f.readlines()
+            f.close()
+    elif linkinputmode == "2":
+        linput_type = "사용자 입력 링크"
+        links=[" "]
+        links[0] == input(f"> {o_type_human}로 다운받을 영상의 링크를 입력하세요: ")
+    if len(links) >= 1:
+        if len(links[0]) >= 5:
+            print(f"{linput_type} 를 읽어와, {o_type_human} 다운로드를 시작합니다.")
+            time.sleep(1)
+            os.makedirs(f"./downloaed_{o_type}/{run_time}",exist_ok=True)
 
-    else:
-        f=open(f"download.txt","r")
-        links = f.readlines()
-        f.close()
-        if len(links) >= 1:
-            if len(links[0]) >= 5:
-                print(f"download.txt 를 읽어와, {o_type} 다운로드를 시작합니다.")
-                time.sleep(1)
-                os.makedirs(f"./downloaed_{o_type}/{run_time}",exist_ok=True)
-
-                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    ydl.download(links)
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download(links)
+            if linput_type == "download.txt":
                 shutil.move(f"./download.txt",f"./downloaed_{o_type}/{run_time}/!downloaded_{o_type}_links.txt")
-                print(f"다운로드가 완료되었습니다.\n프로그램 실행경로의 downloaded_{o_type}/{run_time} 에 저장하였습니다!\ndownload.txt 파일을 초기화 하였습니다!")
                 f = open(f"download.txt", "w")
                 f.close()
-                input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
-            else:
-                input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+            print(f"다운로드가 완료되었습니다.\n프로그램 실행경로의 downloaded_{o_type}/{run_time} 에 저장하였습니다!\n{linput_type} 를 초기화 하였습니다!")
+            input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
         else:
             input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+    else:
+        input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
 
 
 def menu():
