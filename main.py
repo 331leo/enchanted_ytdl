@@ -4,8 +4,10 @@ import datetime
 import time
 import wget
 import shutil
+import psutil
 import math
 import platform
+versionnum="CLI_1.1.6"
 _ = os.system("title Youtube Downloader (Made By Leok.kr)")
 run_time=str(datetime.datetime.now())[:19].replace(":","_")
 isWindows=False
@@ -180,7 +182,12 @@ def menu():
         if r == "q":
             return 1
         download("mp4",r)
-
+    elif c == "i":
+        clear()
+        infotext = f"**INFO**\n\nMade by: LeoK (leok.kr)\nSpecial Thanks to: Youtube_Dl, FFMPEG\nPlatform: {platform.platform()}, {psutil.Process(os.getppid()).name()}\nVersion: {versionnum}\nSupport: support@leok.kr"
+        print(infotext)
+        input("\n> 엔터를 누르면 메인화면으로 돌아갑니다.")
+        clear()
     elif c == "q":
         return 0
     clear()
