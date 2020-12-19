@@ -6,15 +6,14 @@ import time
 import wget
 import shutil
 import math
+import platform
 run_time=str(datetime.datetime.now())[:19].replace(":","_")
 
 _ = os.system("title Youtube Downloader (Made By Leok.kr)")
 def clear():
-    # for windows
     if os.name == 'nt':
         _ = os.system('cls')
 
-        # for mac and linux(here, os.name is 'posix')
     else:
         _ = os.system('clear')
 
@@ -88,9 +87,14 @@ def download(o_type,linkinputmode):
             print(f"{linput_type} 를 읽어와, {o_type_human} 다운로드를 시작합니다.")
             time.sleep(1)
             os.makedirs(f"./downloaed_{o_type}/{run_time}",exist_ok=True)
-
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                ydl.download(links)
+            try:
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download(links)
+            except Exception as e:
+                clear()
+                print(f"다운로드가 불가능 합니다.\n{e}\n")
+                input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+                return
             if linput_type == "download.txt":
                 shutil.move(f"./download.txt",f"./downloaed_{o_type}/{run_time}/!downloaded_{o_type}_links.txt")
                 f = open(f"download.txt", "w")
@@ -100,10 +104,10 @@ def download(o_type,linkinputmode):
             input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
             return
         else:
-            input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+            input(f"{linput_type} 이(가) 비어있거나, 올바르지 않습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
             return
     else:
-        input(f"download.txt 파일이 비어있습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
+        input(f"{linput_type} 이(가) 비어있거나, 올바르지 않습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
         return
 
 
