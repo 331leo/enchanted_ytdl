@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import youtube_dl
 import os
 import datetime
@@ -7,11 +6,20 @@ import wget
 import shutil
 import math
 import platform
-run_time=str(datetime.datetime.now())[:19].replace(":","_")
-
 _ = os.system("title Youtube Downloader (Made By Leok.kr)")
+run_time=str(datetime.datetime.now())[:19].replace(":","_")
+isWindows=False
+isMac=False
+isLinux=False
+if platform.system() == 'Windows':
+    isWindows = True
+elif platform.system() == "Darwin":
+    isMac = True
+elif platform.system() == "Linux":
+    isLinux = True
+
 def clear():
-    if os.name == 'nt':
+    if isWindows:
         _ = os.system('cls')
 
     else:
@@ -26,7 +34,7 @@ def bar_custom(current, total, width=80):
     return progress
 
 def checkffmpeg():
-    if platform.system() == 'Windows':
+    if isWindows:
         if not os.path.isfile("ffmpeg.exe"):
             print("필수요소 ffmpeg 다운로드..")
             wget.download("https://leok.kr/file/windows/ffmpeg.exe",bar=bar_custom)
@@ -35,7 +43,7 @@ def checkffmpeg():
             print("필수요소 ffprobe 다운로드..")
             wget.download("https://leok.kr/file/windows/ffprobe.exe",bar=bar_custom)
             print("")
-    elif platform.system() == "Darwin":
+    elif isMac:
         if not os.path.isfile("ffmpeg"):
             print("필수요소 ffmpeg 다운로드..")
             wget.download("https://leok.kr/file/macos/ffmpeg",bar=bar_custom)
@@ -44,7 +52,7 @@ def checkffmpeg():
             print("필수요소 ffprobe 다운로드..")
             wget.download("https://leok.kr/file/macos/ffprobe",bar=bar_custom)
             print("")
-    elif platform.system() == "Linux":
+    elif isLinux:
         if not os.path.isfile("ffmpeg"):
             print("필수요소 ffmpeg 다운로드..")
             wget.download("https://leok.kr/file/linux/ffmpeg",bar=bar_custom)
@@ -61,7 +69,7 @@ def download(o_type,linkinputmode):
         o_type_human = "음악파일(mp3)"
         ydl_opts = {
             'format': 'bestaudio/best',
-            'outtmpl': f"./downloaed_{o_type}/{run_time}/%(title)s.%(ext)s",
+            'outtmpl': f"./downloaded_{o_type}/{run_time}/%(title)s.%(ext)s",
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
@@ -72,7 +80,7 @@ def download(o_type,linkinputmode):
         o_type_human = "mp4"
         ydl_opts = {
             'format': 'bestvideo+bestaudio',
-            'outtmpl': f"./downloaed_{o_type}/{run_time}/%(title)s.%(ext)s",
+            'outtmpl': f"./downloaded_{o_type}/{run_time}/%(title)s.%(ext)s",
             'postprocessors': [{
                 'key': 'FFmpegVideoConvertor',
                 'preferedformat': 'mp4',
@@ -83,7 +91,7 @@ def download(o_type,linkinputmode):
         o_type_human = "원본영상으"
         ydl_opts = {
             'format': 'bestvideo+bestaudio',
-            'outtmpl': f"./downloaed_{o_type}/{run_time}/%(title)s.%(ext)s",
+            'outtmpl': f"./downloaded_{o_type}/{run_time}/%(title)s.%(ext)s",
             'postprocessors': [{'key': 'FFmpegMetadata'},],
         }
     if linkinputmode == "1":
@@ -94,7 +102,7 @@ def download(o_type,linkinputmode):
             input(f"download.txt 파일이 존재하지 않습니다.\n해당 파일을 생성하였으니, 해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣으신후 다시 실행해 주세요.\n\n> 엔터를 누르시면 메뉴로 돌아갑니다. ")
             return
         else:
-            f=open(f"download.txt","r")
+            f=open(f"download.txt","r",encoding="UTF-8")
             links = f.readlines()
             f.close()
     elif linkinputmode == "2":
@@ -103,9 +111,9 @@ def download(o_type,linkinputmode):
 
     if len(links) >= 1:
         if len(links[0]) >= 5:
-            print(f"{linput_type} 를 읽어와, {o_type_human} 다운로드를 시작합니다.")
+            print(f"{linput_type} 를 읽어와, {o_type_human}로 다운로드를 시작합니다.")
             time.sleep(1)
-            os.makedirs(f"./downloaed_{o_type}/{run_time}",exist_ok=True)
+            os.makedirs(f"./downloaded_{o_type}/{run_time}",exist_ok=True)
             try:
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                     ydl.download(links)
@@ -115,11 +123,14 @@ def download(o_type,linkinputmode):
                 input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
                 return
             if linput_type == "download.txt":
-                shutil.move(f"./download.txt",f"./downloaed_{o_type}/{run_time}/!downloaded_{o_type}_links.txt")
+                shutil.move(f"./download.txt",f"./downloaded_{o_type}/{run_time}/!downloaded_{o_type}_links.txt")
                 f = open(f"download.txt", "w")
                 f.close()
             clear()
             print(f"다운로드가 완료되었습니다.\n./downloaded_{o_type}/{run_time} 에 저장하였습니다!\n{linput_type} 를 초기화 하였습니다!")
+            if isWindows:
+                os.system(f"explorer downloaded_{o_type}\{run_time}")
+                print("\n다운로드된 폴더를 열었습니다!")
             input("> 엔터를 누르시면 메뉴로 돌아갑니다. ")
             return
         else:
@@ -135,14 +146,16 @@ def menu():
         ok = True
         while ok:
             print("다운로드 방식을 선택하세요.")
-            print("[1] 파일로 부터 링크 가져오기")
-            print("[2] 영상 링크 직접 입력")
+            print("[1] 파일로 부터 링크 가져오기(많은 영상 동시 다운로드)")
+            print("[2] 영상 링크 직접 입력(하나씩 다운로드)")
             print("[q] 메인메뉴")
             c = input("> ")
             clear()
             if c == "1" or c == "2" or c == "q":
                 ok = False
         return c
+    if not isWindows:
+        print("윈도우 환경이 아닙니다. 올바르게 작동하지 않을 가능성이 높습니다.")
     print("프로그램 동작 모드를 선택하세요.")
     print("[1] 음악 다운로드 모드")
     print("[2] 영상 다운로드 모드(포멧: mkv)")
