@@ -7,10 +7,10 @@ import shutil
 import psutil
 import math
 import platform
-
-
-
-versionnum="CLI_1.2.0"
+import requests
+import sys
+versionnum="CLI_1.3.0"
+print("최신버전 확인중..")
 _ = os.system("title Youtube Downloader (Made By Leok.kr)")
 run_time=str(datetime.datetime.now())[:19].replace(":","_")
 isWindows=False
@@ -224,6 +224,31 @@ def menu():
         return 0
     clear()
 
+def check_update():
+    if isWindows:
+        try:
+            res=requests.get("https://raw.githubusercontent.com/331leo/Youtube_downloader/main/VERSIONINFO").text.split("#")
+            nversionnum=res[0].replace("\n","")
+            isman=res[1]
+            if isman =="M":
+                if nversionnum > versionnum.split("_")[1]:
+                    while True:
+                        c=input(f"{tenchant.blue}{tenchant.bold}업데이트된 신규버전(v{nversionnum})이 있습니다.\n[1] 다운로드\n[2] 무시{tenchant.ori}\n\n{tenchant.mint}{tenchant.bold}> ")
+                        if c== "1":
+                            wget.download(f"https://leok.kr/file/windows/youtube_downloader-{nversionnum}.exe")
+                            print(f"{tenchant.green}{tenchant.bold}youtube_downloader-{nversionnum}.exe 파일을 다운완료 하였습니다. 새로운 버전의 파일로 프로그램을 열어주세요!")
+                            input(f"{tenchant.mint}> ")
+                            return 100
+                        elif c == "2":
+                            return 2
+                        clear()
+
+        except Exception as e:
+            print(f"신규버전 체크 실패 {e}")
+            return 1
+
+if check_update() == 100:
+    sys.exit()
 checkffmpeg()
 clear()
 while True:
