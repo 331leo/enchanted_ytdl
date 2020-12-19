@@ -135,12 +135,12 @@ def download(o_type,linkinputmode):
             f.close()
     elif linkinputmode == "2":
         linput_type = "사용자 입력 링크"
-        links.append(input(f"{tenchant.yellow}> {o_type_human}로 다운받을 영상의 링크를 입력하세요: "))
+        links.append(input(f"{tenchant.yellow}> {o_type_human}로 다운받을 영상의 링크를 입력하세요: {tenchant.mint}"))
         print(f"{tenchant.ori}")
 
     if len(links) >= 1:
         if len(links[0]) >= 5:
-            print(f"{linput_type} 를 읽어와, {o_type_human}로 다운로드를 시작합니다.")
+            print(f"{tenchant.blue}{linput_type} 를 읽어와, {o_type_human}로 다운로드를 시작합니다.{tenchant.yellow}")
             time.sleep(1)
             os.makedirs(f"./downloaded_{o_type}/{run_time}",exist_ok=True)
             try:
@@ -149,18 +149,18 @@ def download(o_type,linkinputmode):
             except Exception as e:
                 clear()
                 print(f"{tenchant.red}다운로드가 불가능 합니다.\n{e}\n{tenchant.ori}")
-                input(f"{tenchant.bold}{tenchant.mint}> 엔터를 누르시면 메뉴로 돌아갑니다. {tenchant.ori}")
+                input(f"{tenchant.bold}{tenchant.mint}\n> 엔터를 누르시면 메뉴로 돌아갑니다. {tenchant.ori}")
                 return
             if linput_type == "download.txt":
                 shutil.move(f"./download.txt",f"./downloaded_{o_type}/{run_time}/!downloaded_{o_type}_links.txt")
                 f = open(f"download.txt", "w")
                 f.close()
             clear()
-            print(f"{tenchant.green}다운로드가 완료되었습니다.{tenchant.ori}\n./downloaded_{o_type}/{run_time} 에 저장하였습니다!\n{linput_type} 를 초기화 하였습니다!")
+            print(f"{tenchant.green}다운로드가 완료되었습니다.{tenchant.ori}\n\n./downloaded_{o_type}/{run_time} 에 저장하였습니다!\n{linput_type} 를 초기화 하였습니다!")
             if isWindows:
                 os.system(f"explorer downloaded_{o_type}\{run_time}")
                 print("\n다운로드된 폴더를 열었습니다!")
-            input(f"{tenchant.bold}{tenchant.mint}> 엔터를 누르시면 메뉴로 돌아갑니다. {tenchant.ori}")
+            input(f"{tenchant.bold}{tenchant.mint}\n> 엔터를 누르시면 메뉴로 돌아갑니다. {tenchant.ori}")
             return
         else:
             input(f"{linput_type} 이(가) 비어있거나, 올바르지 않습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n{tenchant.bold}{tenchant.mint}> 엔터를 누르시면 메뉴로 돌아갑니다. {tenchant.ori}")
@@ -174,24 +174,25 @@ def menu():
     def isfilemode():
         ok = True
         while ok:
-            print("다운로드 방식을 선택하세요.")
+            print(f"{tenchant.blue}{tenchant.bold}다운로드 방식을 선택하세요.\n{tenchant.ori}")
             print("[1] 파일로 부터 링크 가져오기(많은 영상 동시 다운로드)")
             print("[2] 영상 링크 직접 입력(하나씩 다운로드)")
             print("[q] 메인메뉴")
-            c = input(f"{tenchant.bold}{tenchant.mint}> ")
+            c = input(f"{tenchant.bold}{tenchant.mint}\n> ")
             print(f"{tenchant.ori}")
             clear()
             if c == "1" or c == "2" or c == "q":
                 ok = False
         return c
     if not isWindows:
-        print("윈도우 환경이 아닙니다. 올바르게 작동하지 않을 가능성이 높습니다.")
-    print("프로그램 동작 모드를 선택하세요.")
+        print(f"{tenchant.yellow}윈도우 환경이 아닙니다. 올바르게 작동하지 않을 가능성이 높습니다.{tenchant.ori}")
+    print(f"{tenchant.blue}{tenchant.bold}프로그램 동작 모드를 선택하세요.{tenchant.ori}\n")
     print("[1] 음악 다운로드 모드")
     print("[2] 영상 다운로드 모드(포멧: mkv)")
     print("[3] 영상 다운로드 모드(강제 mp4변환, 오래걸림)")
+    print("[i] 프로그램 정보, 시스템 정보")
     print("[q] 종료")
-    c = input(f"{tenchant.bold}{tenchant.mint}> ")
+    c = input(f"{tenchant.bold}{tenchant.mint}\n> ")
     print(f"{tenchant.ori}")
     clear()
 
@@ -215,9 +216,9 @@ def menu():
         download("mp4",r)
     elif c == "i":
         clear()
-        infotext = f"**INFO**\n\nMade by: LeoK (leok.kr)\nSpecial Thanks to: Youtube_Dl, FFMPEG\nPlatform: {platform.platform()}, {psutil.Process(os.getppid()).name()}\nGPU name: {gpuNames}\nHwaccel: {isNvidia}\nVersion: {versionnum}\nSupport: support@leok.kr"
+        infotext = f"{tenchant.blue}{tenchant.bold}**INFO**{tenchant.ori}\n\nMade by: LeoK (leok.kr)\nSpecial Thanks to: Youtube_Dl, FFMPEG\nPlatform: {platform.platform()}, {psutil.Process(os.getppid()).name()}\nGPU name: {gpuNames}\nHwaccel: {isNvidia}\nVersion: {versionnum}\nSupport: support@leok.kr"
         print(infotext)
-        input(f"\n{tenchant.bold}{tenchant.mint}> 엔터를 누르면 메인화면으로 돌아갑니다.{tenchant.ori}")
+        input(f"\n{tenchant.bold}{tenchant.mint}\n> 엔터를 누르면 메인화면으로 돌아갑니다.{tenchant.ori}")
         clear()
     elif c == "q":
         return 0
