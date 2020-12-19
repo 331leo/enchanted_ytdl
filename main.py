@@ -26,14 +26,33 @@ def bar_custom(current, total, width=80):
     return progress
 
 def checkffmpeg():
-    if not os.path.isfile("ffmpeg.exe"):
-        print("필수요소 ffmpeg 다운로드..")
-        wget.download("https://leok.kr/file/ffmpeg.exe",bar=bar_custom)
-        print("")
-    if not os.path.isfile("ffprobe.exe"):
-        print("필수요소 ffprobe 다운로드..")
-        wget.download("https://leok.kr/file/ffprobe.exe",bar=bar_custom)
-        print("")
+    if platform.system() == 'Windows':
+        if not os.path.isfile("ffmpeg.exe"):
+            print("필수요소 ffmpeg 다운로드..")
+            wget.download("https://leok.kr/file/windows/ffmpeg.exe",bar=bar_custom)
+            print("")
+        if not os.path.isfile("ffprobe.exe"):
+            print("필수요소 ffprobe 다운로드..")
+            wget.download("https://leok.kr/file/windows/ffprobe.exe",bar=bar_custom)
+            print("")
+    elif platform.system() == "Darwin":
+        if not os.path.isfile("ffmpeg"):
+            print("필수요소 ffmpeg 다운로드..")
+            wget.download("https://leok.kr/file/macos/ffmpeg",bar=bar_custom)
+            print("")
+        if not os.path.isfile("ffprobe"):
+            print("필수요소 ffprobe 다운로드..")
+            wget.download("https://leok.kr/file/macos/ffprobe",bar=bar_custom)
+            print("")
+    elif platform.system() == "Linux":
+        if not os.path.isfile("ffmpeg"):
+            print("필수요소 ffmpeg 다운로드..")
+            wget.download("https://leok.kr/file/linux/ffmpeg",bar=bar_custom)
+            print("")
+        if not os.path.isfile("ffprobe"):
+            print("필수요소 ffprobe 다운로드..")
+            wget.download("https://leok.kr/file/linux/ffprobe",bar=bar_custom)
+            print("")
     clear()
 
 def download(o_type,linkinputmode):
