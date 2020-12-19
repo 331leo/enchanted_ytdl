@@ -1,2 +1,10 @@
-# Youtube_downloader
- Simple Youtube Downloader Using Youtube_dl
+# Enchanted Youtube Downloader
+Youtube-dl 을 활용해 만든 간단하지만 유용한 유튜브 다운로더 입니다.
+링크를 파일에 담아 일괄 다운로드 할수 있으며, 한 영상씩도 다운 가능합니다.
+
+다운로드 옵션은 3가지 입니다.
+[1] 음악 다운로드 모드
+[2] 영상 다운로드 모드(포멧: mkv)
+[3] 영상 다운로드 모드(강제 mp4변환, 오래걸림)
+
+아직 완성된 버전이 아니며, 곧 GUI 버전도 나올 예정입니다.
