@@ -1,1 +1,1 @@
-pyinstaller --onefile --icon=icon.ico main.py
+pyinstaller --onefile --icon=icon.ico --name=Enchanted_ytdl-1.3.6 main.py

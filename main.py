@@ -9,9 +9,10 @@ import math
 import platform
 import requests
 import sys
-versionnum="CLI_1.3.0"
-print("최신버전 확인중..")
-_ = os.system("title Youtube Downloader (Made By Leok.kr)")
+
+versionnum="CLI_1.3.6"
+
+
 run_time=str(datetime.datetime.now())[:19].replace(":","_")
 isWindows=False
 isMac=False
@@ -169,7 +170,6 @@ def download(o_type,linkinputmode):
         input(f"{linput_type} 이(가) 비어있거나, 올바르지 않습니다.\n해당 파일에 {o_type_human}로 다운받고 싶은 유튜브 영상들의 링크를 넣어주세요.\n\n{tenchant.bold}{tenchant.mint}> 엔터를 누르시면 메뉴로 돌아갑니다. {tenchant.ori}")
         return
 
-
 def menu():
     def isfilemode():
         ok = True
@@ -225,9 +225,39 @@ def menu():
     clear()
 
 def check_update():
+
     if isWindows:
+        cfilename = psutil.Process(os.getppid()).name()
         try:
-            res=requests.get("https://raw.githubusercontent.com/331leo/Youtube_downloader/main/VERSIONINFO").text.split("#")
+            if cfilename == "!upgrade.exe":
+                if os.path.exists("!upgrade.exe"):
+                    if os.path.exists("Enchanted_ytdl.exe"):
+                        os.remove("Enchanted_ytdl.exe")  # if exist, remove it directly
+                    shutil.move("!upgrade.exe","Enchanted_ytdl.exe")
+
+                    print(f"{tenchant.bold}{tenchant.green}자동업데이트 완료!")
+                    os.system("start Enchanted_ytdl.exe")
+                    sys.exit()
+                    return 0
+            else:
+                if os.path.exists("!upgrade.exe"):
+                    os.remove("!upgrade.exe")
+                    return 0
+        except Exception as e:
+            print(f"{tenchant.red}자동업데이트 에러: {e}{tenchant.ori}")
+        try:
+            if not cfilename == "Enchanted_ytdl.exe":
+                input(f"{tenchant.pink}파일이름을 변경하면 정상 작동이 불가합니다.\nEnchanted_ytdl.exe 로 변경후 재시작 합니다.\n\n{tenchant.mint}> 엔터를 눌러 계속합니다. ")
+                if os.path.exists("Enchanted_ytdl.exe"):
+                    os.remove("Enchanted_ytdl.exe")  # if exist, remove it directly
+                shutil.move(cfilename, "Enchanted_ytdl.exe")
+                os.system("start Enchanted_ytdl.exe")
+                sys.exit()
+        except Exception as e:
+            print(f"파일이름 고정 메소드 에러: {e}")
+            return 1
+        try:
+            res=requests.get("http://leok.kr/eytdlversion").text.split("#")
             nversionnum=res[0].replace("\n","")
             isman=res[1]
             if isman =="M":
@@ -235,9 +265,10 @@ def check_update():
                     while True:
                         c=input(f"{tenchant.blue}{tenchant.bold}업데이트된 신규버전(v{nversionnum})이 있습니다.\n[1] 다운로드\n[2] 무시{tenchant.ori}\n\n{tenchant.mint}{tenchant.bold}> ")
                         if c== "1":
-                            wget.download(f"https://leok.kr/file/windows/youtube_downloader-{nversionnum}.exe")
-                            print(f"{tenchant.green}{tenchant.bold}youtube_downloader-{nversionnum}.exe 파일을 다운완료 하였습니다. 새로운 버전의 파일로 프로그램을 열어주세요!")
-                            input(f"{tenchant.mint}> ")
+                            wget.download(f"https://leok.kr/eytdl","!upgrade.exe",bar=bar_custom)
+                            print(f"\n{tenchant.green}{tenchant.bold}!upgrade.exe 파일을 다운로드 하였습니다.\n")
+                            os.system("start !upgrade.exe")
+                            sys.exit()
                             return 100
                         elif c == "2":
                             return 2
@@ -247,10 +278,15 @@ def check_update():
             print(f"신규버전 체크 실패 {e}")
             return 1
 
-if check_update() == 100:
-    sys.exit()
-checkffmpeg()
-clear()
-while True:
-    if menu() == 0:
-        break
+
+if __name__ == '__main__':
+    print("업데이트 확인중...")
+    _ = os.system("title Youtube Downloader (Made By Leok.kr)")
+    if check_update() == 100:
+        sys.exit()
+    checkffmpeg()
+    clear()
+
+    while True:
+        if menu() == 0:
+            break
