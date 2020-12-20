@@ -1,0 +1,7 @@
+pyinstaller
+youtube_dl
+wget
+requests
+wmi
+psutil
+datetime
