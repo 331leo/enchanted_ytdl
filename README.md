@@ -25,6 +25,7 @@ Youtube-dl 을 활용해 만든 간단하지만 유용한 유튜브 다운로더
 ![screenshot](./screenshot/menump4.png)
 ![screenshot](./screenshot/downloading_txt.png)
 ![screenshot](./screenshot/downloaded_txt.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2F331leo%2Fenchanted_ytdl.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2F331leo%2Fenchanted_ytdl?ref=badge_shield)
 
 ## 	🔄자동 업데이트
 해당 프로그램은 자동 업데이터 기능이 포함되어 있으며, 
@@ -47,3 +48,7 @@ pyinstaller --onefile --icon=icon.ico --name=Enchanted_ytdl-{버전} main.py
 
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2F331leo%2Fenchanted_ytdl.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2F331leo%2Fenchanted_ytdl?ref=badge_large)
